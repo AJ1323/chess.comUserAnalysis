@@ -1,18 +1,41 @@
 import requests
 
-# Basic headers that are good practice
+#headers for API
 headers = {
-    'User-Agent': 'GameScraper.py',  # Good etiquette to identify your app
-    'Accept': 'application/json'   # Tell the server you want JSON response
+    'User-Agent': 'Chess.com stats displayer(catchy I know)',
+    'Accept': 'application/json'
 }
 
-#update the username to look up specific player.
-username = 'hikaru'
-# Get profile information (replace 'magnuscarlsen' with desired username)
-response = requests.get(f'https://api.chess.com/pub/player/{username}', headers=headers)
+##functions for calling API for whichever information is wanted.
+#This one is for broad states
+def get_stats(username) :
+    stats_response = requests.get(f'https://api.chess.com/pub/player/{username}/stats', 
+                                  headers= headers) 
+    if stats_response.status_code == 200:
+        return stats_response.json
+    else:
+        print(f"Error: {stats_response.status_code}")
+#This is an array of live games played by username.
+def get_games_archives(username) :
+    games_response = requests.get(f'https://api.chess.com/pub/player/{username}/games/archives',
+                                  headers=headers)
+    if games_response.status_code == 200:
+        return games_response.json
+    else:
+        print(f"Error: {games_response.status_code}")
+#Array of games for a specific month and year.
+def get_games_month(username, MM, YYYY) :
+    month_year_games_response = requests.get(f'https://api.chess.com/pub/player/{username}/games/{YYYY}/{MM}',
+                                             headers= headers)
+    if month_year_games_response.status_code == 200:
+        return month_year_games_response.json
+    else:
+        print(f"Error: {month_year_games_response.status_code}")
 
-if response.status_code == 200:
-    profile_data = response.json()
-    print(profile_data)
-else:
-    print(f"Error: {response.status_code}")
+def get_time_control_games(username, BASETIME, INCREMENT) :
+    games_time_control_response = requests.get(f'https://api.chess.com/pub/player/{username}/games/live/{BASETIME}/{INCREMENT}',
+                                      headers=headers)
+    if games_time_control_response.status_code == 200:
+        return games_time_control_response.json
+    else:
+        print(f"Error: {games_time_control_response.status_code}")
