@@ -1,0 +1,9 @@
+.Entry_container {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    max-width: 150px;
+    box-shadow: black;
+  }
