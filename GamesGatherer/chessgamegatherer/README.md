@@ -1,70 +1,21 @@
-# Getting Started with Create React App
+## Chess.com user opening chart
+# Author: Austin Morris
+# Date: April 04, 2025
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This was started as a way to see if the player was on a current winning or losing streak(hence that portion of the name) However it pivoted to an analysis of openings by the player. Enter a valid chess.com username(it is case sensitive) into the search bar and click the 'search' button. This will allow you to see the openings most commonly played by or won with the provided chess.com user.
 
-## Available Scripts
+# Profile Picture
+The profile picture when clicked will open a new window to the chess.com profile of the username put into the search bar.
+# Stats
+This will show the ratings both current and best as well as the overall record of 3 game types: blitz, rapid, and daily.
+# Chart
+The charts will display by default the 10 most played openings by the user. There are options to display the top 5, 10, 20, 50, or 100 by either most played with or with the highest win rate. You can also search for a specific opening or it will display the openings that contain the keyword entered if they exist. If they are none that match the chart will be empty.
 
-In the project directory, you can run:
+# Things to improve
+1) When no openings match the keyword should not display an empty chart but should just display text stating that there are no matches.
+2) Make the opening url that appears below chart when one is selected clickable to open window to chess.com opening.
+3) Make the search bar work with the enter key and so that it is not necessary to click the search button.
+4) aesthetics, improving size and location of searchbar and search button, color, look of the stats.
+5) Add a strictly results chart that just shows wins and losses over a certain number of games.
+6) Add a suggested opening to play against the user based on their most used or highest winning openings.
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

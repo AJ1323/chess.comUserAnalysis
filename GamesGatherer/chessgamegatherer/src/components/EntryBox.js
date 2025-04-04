@@ -46,7 +46,7 @@ const EntryBox = () => {
   }
   return (
     <div className="stats_profile_container">
-      <h1>Chess.com Game Analysis</h1>
+      <h1>Chess.com Opening Analysis</h1>
       
       <div className="username_entry_container">
         <input 
