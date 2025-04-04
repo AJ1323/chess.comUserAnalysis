@@ -1,167 +1,151 @@
-import React from 'react';
 import { useState } from 'react';
-
-
-
+import ProfileAndStats from './ProfileAndStats';
+import Archives from './Archives';
+import OpeningsChart from './OpeningsChart';
+import './EntryBox.css'
 
 const EntryBox = () => {
+  const [name, setName] = useState('');
+  const [profile, setProfile] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [openings, setOpenings] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
- 
-    const [name, setName] = useState('');
-    const [stats, setStats] = useState(null);
-    // const[opponents, addOpponents] = useState([]);
-    // const [openings, editOpenings] = useState(new Map());
-    
-
-     function parseGames( games ){
-        var results = new Map();
-        results.set( 'wins', 0 );
-        results.set( 'losses', 0 );
-        results.set('draws', 0 );
-        
-        for(const game of games){
-            const wins = results.get('wins');
-            const losses = results.get('losses');
-            const draws = results.get('draws');
-
-            if(game.white.username === name){
-
-                switch( game.white.result ){
-    
-                    case 'checkmated':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'agreed':
-                        results.set( 'draws', draws + 1 ) ;
-                        break
-                    case 'repetition':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    case 'timeout':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'resigned':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'stalemate':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    case 'lose':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'insufficient':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    case '50move':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    case 'abandoned':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'timevsinsufficient':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    default:
-                        results.set( 'wins', wins + 1 ) ;
-                }
-                //addOpponents( opponents.push(game.black.username) );
-            }   
-            else{
-    
-                switch( game.black.result ){
-    
-                    case 'checkmated':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'agreed':
-                        results.set( 'draws', draws + 1 ) ;
-                        break
-                    case 'repetition':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    case 'timeout':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'resigned':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'stalemate':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    case 'lose':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'insufficient':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    case '50move':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    case 'abandoned':
-                        results.set( 'losses', losses + 1 ) ;
-                        break;
-                    case 'timevsinsufficient':
-                        results.set( 'draws', draws + 1 ) ;
-                        break;
-                    default:
-                        results.set( 'wins', wins + 1 ) ;
-                }
-            }
-
-        }
-
-       
-        
-        return results;
-            
-        
-    }
-      
   const handleClick = async () => {
-        try {
-            const response = await fetch(`https://api.chess.com/pub/player/${name}/games/2025/03`)
-
-            if(!response.ok)
-            alert('invalid username');
-            
-            const statsJson = await response.json();
-            let games = statsJson.games;
-            
-            const newStats = parseGames(games);
-        
-            setStats( newStats );
-
-            
-
-        } catch (err) {
-            console.log(err.message)
-        }
-    };
-
-
-
-  return (
+    if (!name.trim()) {
+      setError("Please enter a username");
+      return;
+    }
     
-    <div>
-        <h1>
-            Shitty Monthly Game Checker
-        </h1>
-        <input className='name_input' required="required" 
-        placeholder='Enter a UserName' value={name}
-         onChange={e => setName(e.target.value)} />
-
-        <button type="submit" onClick={handleClick} >Submit</button>
-
-        <label className='stats_display' />
-        { stats }
-        <label/>
-
-        
-    </div>
+    try {
+      setLoading(true);
+      setError(null);
       
+      // Get profile and stats
+      const newProfAndStats = await ProfileAndStats(name);
+      setProfile(newProfAndStats.profile);
+      setStats(newProfAndStats.stats);
+      
+      // Get openings data (from all months)
+      const openingResults = await Archives(name);
+      setOpenings(openingResults);
+      
+      setLoading(false);
+    } catch (err) {
+      console.log(err.message);
+      setError("Error fetching data. Please check the username and try again.");
+      setLoading(false);
+    }
+  };
+
+  const picClick = (e) => {
+    e.preventDefault();
+
+    window.open(profile.get('url'));
+  }
+  return (
+    <div className="stats_profile_container">
+      <h1>Chess.com Game Analysis</h1>
+      
+      <div className="username_entry_container">
+        <input 
+          className="username_entry"
+          required="required" 
+          placeholder="Enter a chess.com username" 
+          value={name}
+          onChange={e => setName(e.target.value)} 
+        />
+        <button 
+          type="submit" 
+          onClick={handleClick}
+          disabled={loading}
+          className="search_btn"
+        >
+          {loading ? "Loading..." : "Search"}
+        </button>
+      </div>
+      
+      {error && (
+        <div className="error">
+          {error}
+        </div>
+      )}
+
+        {profile && (
+        <div className="profile_container">
+            <h2>Profile</h2>
+          <img className='profile_pic' src={profile.get('pic')} onClick={picClick} />
+        </div>
+      )}
+      
+      {stats && (
+        <div className="stats_container">
+          <div className='rapid_conatiner'>
+            <h4>Rapid</h4>
+            <ul className='stats_list'>
+                <li>
+                {'Current rating: ' + stats.get('rapid').get('last')}
+                </li>
+
+                <li>
+                {'Best rating: ' + stats.get('rapid').get('best')}
+                </li>
+
+                <li>
+                {'Overall Record: ' + 'wins: ' + stats.get('rapid').get('record')[0] + 
+                ' losses: ' + stats.get('rapid').get('record')[1] + ' draws: ' + stats.get('rapid').get('record')[2]}
+                </li>
+            
+            </ul>
+          </div>
+
+          <div className='blitz_container'>
+          <h4>Blitz</h4>
+            <ul>
+                <li>
+                {'Current rating: ' + stats.get('blitz').get('last')}
+                </li>
+
+                <li>
+                {'Best rating: ' + stats.get('blitz').get('best')}
+                </li>
+
+                <li>
+                {'Overall Record: ' + 'wins: ' + stats.get('blitz').get('record')[0] + 
+                ' losses: ' + stats.get('blitz').get('record')[1] + ' draws: ' + stats.get('blitz').get('record')[2]}
+                </li>
+            
+            </ul>
+          </div>
+
+          <div className='daily_container'>
+          <h4>Daily</h4>
+            <ul>
+                <li>
+                {'Current rating: ' + stats.get('daily').get('last')}
+                </li>
+
+                <li>
+                {'Best rating: ' + stats.get('daily').get('best')}
+                </li>
+
+                <li>
+                {'Overall Record: ' + 'wins: ' + stats.get('daily').get('record')[0] + 
+                ' losses: ' + stats.get('daily').get('record')[1] + ' draws: ' + stats.get('daily').get('record')[2]}
+                </li>
+            
+            </ul>
+          </div>
+          
+        </div>
+      )}
+      
+      
+      
+      {openings && <OpeningsChart username={name} openingsData={openings} />}
+    </div>
   );
 };
-
-
 
 export default EntryBox;

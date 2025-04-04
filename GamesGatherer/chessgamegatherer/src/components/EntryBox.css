@@ -1,6 +1,33 @@
-.TextInput{
-      height: 40;
-      margin: 12;
-      border-radius: 1;
-      padding: 10;
-    }
+.profile_container{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin: 10px;
+}
+.profile_pic:hover{
+  cursor: pointer;
+}
+
+h1{
+  text-align: center;
+}
+h2{
+  text-align: center;
+}
+h4{
+  text-align: center;
+}
+
+.stats_container{
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  margin: 10px;
+}
+
+.rapid_container{
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+}
+
