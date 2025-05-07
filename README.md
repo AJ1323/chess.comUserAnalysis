@@ -16,8 +16,8 @@ The charts will display by default the 10 most played openings by the user. Ther
 # Things to improve
 1) When no openings match the keyword should not display an empty chart but should just display text stating that there are no matches.
 2) Make the opening url that appears below chart when one is selected clickable to open window to chess.com opening.
-3) Make the search bar work with the enter key and so that it is not necessary to click the search button.
-4) aesthetics, improving size and location of searchbar and search button, color, look of the stats.
+3) Make the search bar work with the enter key so that it is not necessary to click the search button.
+4) Aesthetics, improving size and location of searchbar and search button, color, look of the stats.
 5) Add a strictly results chart that just shows wins and losses over a certain number of games.
 6) Add a suggested opening to play against the user based on their most used or highest winning openings.
 
